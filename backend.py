@@ -14,13 +14,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-cur_dir = os.getcwd()
+# Set the download directory to C:\Downloads (ensure this directory exists)
+download_dir = "C:\\Downloads"
 
 @app.post("/download")
 def download_video(link: str = Form(...)):
     youtube_dl_options = {
         "format": "best",
-        "outtmpl": os.path.join(cur_dir, f"video-{link[-11:]}.mp4")  # Change the output name as needed
+        "outtmpl": os.path.join(download_dir, f"video-{link[-11:]}.mp4")  # Save to C:\Downloads
     }
     with yt_dlp.YoutubeDL(youtube_dl_options) as ydl:
         ydl.download([link])
